@@ -1,7 +1,10 @@
 package practice.core.member;
 
+/**
+ * <회원 서비스>
+ */
 public interface MemberService {
-    void save(Member member); // 회원 저장
+    void join(Member member); // 회원 가입
 
-    Member findById(Long memberId); // 회원 조회
+    Member findMember(Long memberId); // 회원 찾기
 }
