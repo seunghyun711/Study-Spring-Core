@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import practice.core.AppConfig;
 import practice.core.member.Grade;
 import practice.core.member.Member;
@@ -19,9 +21,12 @@ public class OrderServiceTest {
 
     @BeforeEach // 각 테스트 실행 전 호출되도록 하는 애너테이션
     public void beforeEach(){
-        AppConfig appConfig = new AppConfig();
-        memberService = appConfig.memberService();
-        orderService = appConfig.orderService();
+//        AppConfig appConfig = new AppConfig();
+//        memberService = appConfig.memberService();
+//        orderService = appConfig.orderService();
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        memberService = ac.getBean("memberService", MemberService.class);
+        orderService = ac.getBean("orderService", OrderService.class);
     }
 
     @Test
