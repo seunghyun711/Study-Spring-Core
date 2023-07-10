@@ -11,9 +11,14 @@ import practice.core.member.MemoryMemberRepository;
  */
 public class OrderServiceImpl implements OrderService{
 
-    //회원 저장소와 할인 정책을 의존할 때 각 인터페이스의 구현 클래스에 의존한다.
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    // 추상에 의존
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
