@@ -4,7 +4,12 @@ package practice.core.member;
  * MemberService 구현 클래스
  */
 public class MemberServiceImpl implements MemberService {
-    private final MemberRepository memberRepository = new MemoryMemberRepository(); // MemberRepository의 구현 클래스인 MemoryMemberRepository클래스를 의존
+//    private final MemberRepository memberRepository = new MemoryMemberRepository(); // MemberRepository의 구현 클래스인 MemoryMemberRepository클래스를 의존
+    private final MemberRepository memberRepository;
+
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public void join(Member member) { // 회원 가입
