@@ -25,4 +25,20 @@ public class SingletonTest {
 
         Assertions.assertThat(memberService1).isNotSameAs(memberService2);
     }
+
+    @Test
+    @DisplayName("싱글톤 패턴을 적용한 객체 사용")
+    public void SingletonServiceTest(){
+        // 1. 조회 : 호출할 때마다 같은 객체 반환
+        SingletonService singletonService1 = SingletonService.getInstance();
+
+        // 2. 조회 : 호출할 때마다 같은 객체 반환
+        SingletonService singletonService2 = SingletonService.getInstance();
+
+        // singletonService1 == singletonService2임을 확인
+        System.out.println("singletonService1 = " + singletonService1);
+        System.out.println("singletonService2 = " + singletonService2);
+
+        Assertions.assertThat(singletonService1).isSameAs(singletonService2);
+    }
 }
