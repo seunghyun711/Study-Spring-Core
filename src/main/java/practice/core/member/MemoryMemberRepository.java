@@ -1,5 +1,7 @@
 package practice.core.member;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import java.util.Map;
  * 메모리 회원 저장
  * MemberRepository인터페이스의 구현 클래스
  */
+@Component
 public class MemoryMemberRepository implements MemberRepository{
     private static Map<Long, Member> store = new HashMap<>(); // 회원 정보를 저장할 hashmap
     @Override

@@ -1,8 +1,12 @@
 package practice.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 /**
  * MemberService 구현 클래스
  */
+@Component
 public class MemberServiceImpl implements MemberService {
 //    private final MemberRepository memberRepository = new MemoryMemberRepository(); // MemberRepository의 구현 클래스인 MemoryMemberRepository클래스를 의존
     private final MemberRepository memberRepository;
@@ -12,6 +16,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository;
     }
 
+    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
