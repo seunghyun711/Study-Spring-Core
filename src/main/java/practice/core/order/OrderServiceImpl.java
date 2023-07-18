@@ -15,9 +15,12 @@ import practice.core.member.MemoryMemberRepository;
 public class OrderServiceImpl implements OrderService{
 
     // 추상에 의존
-    private final MemberRepository memberRepository;
-    private final DiscountPolicy discountPolicy;
+    private MemberRepository memberRepository;
+    private DiscountPolicy discountPolicy;
 
+
+
+    // 의존관계 주입 방식1 - 생성자 주입
     @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
