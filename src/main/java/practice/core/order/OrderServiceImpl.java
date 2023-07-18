@@ -15,8 +15,8 @@ import practice.core.member.MemoryMemberRepository;
 public class OrderServiceImpl implements OrderService{
 
     // 추상에 의존
-    private MemberRepository memberRepository;
-    private DiscountPolicy discountPolicy;
+//    private MemberRepository memberRepository;
+//    private DiscountPolicy discountPolicy;
 
 
 
@@ -28,15 +28,19 @@ public class OrderServiceImpl implements OrderService{
     }
 
     // 의존관계 주입 방식2 - 수정자 주입
-    @Autowired
-    public void setMemberRepository(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+//    @Autowired
+//    public void setMemberRepository(MemberRepository memberRepository) {
+//        this.memberRepository = memberRepository;
+//    }
+//
+//    @Autowired
+//    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+//        this.discountPolicy = discountPolicy;
+//    }
 
-    @Autowired
-    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
-        this.discountPolicy = discountPolicy;
-    }
+    // 의존관계 주입 방식3 - 필드 주입
+    @Autowired private MemberRepository memberRepository;
+    @Autowired private DiscountPolicy discountPolicy;
 
 
     // 테스트 용도
