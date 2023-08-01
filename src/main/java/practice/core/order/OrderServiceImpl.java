@@ -2,6 +2,7 @@ package practice.core.order;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import practice.core.discount.DiscountPolicy;
 import practice.core.discount.FixDiscountPolicy;
@@ -13,21 +14,22 @@ import practice.core.member.MemoryMemberRepository;
  * <주문 서비스 구현 클래스>
  */
 @Component
-@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
     // 추상에 의존
     private final MemberRepository memberRepository;
-    // 조회할 빈이 2개 이상인 경우 해결방법 1 -  @Autowired 필드명 매칭
-    @Autowired
-    private final DiscountPolicy rateDiscountPolicy;
+    private final DiscountPolicy discountPolicy;
+//    // 조회할 빈이 2개 이상인 경우 해결방법 1 -  @Autowired 필드명 매칭
+//    @Autowired
+//    private final DiscountPolicy rateDiscountPolicy;
 
     // 의존관계 주입 방식1 - 생성자 주입
-//    @Autowired
-//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-//        this.memberRepository = memberRepository;
-//        this.discountPolicy = discountPolicy;
-//    }
+    @Autowired
+    // 조회할 빈이 2개 이상인 경우 해결방법 2 -  @Qualifier 사용
+    public OrderServiceImpl(MemberRepository memberRepository,@Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     // 의존관계 주입 방식2 - 수정자 주입
 //    @Autowired
@@ -61,7 +63,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
         Member member = memberRepository.findById(memberId);
-        int discountPrice = rateDiscountPolicy.discount(member, itemPrice);
+        int discountPrice = discountPolicy.discount(member, itemPrice);
 
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }

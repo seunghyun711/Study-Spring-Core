@@ -1,5 +1,6 @@
 package practice.core.discount;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import practice.core.member.Grade;
 import practice.core.member.Member;
@@ -9,6 +10,7 @@ import practice.core.member.Member;
  * VIP인 고객의 주문 금액의 10% 할인 적용
  */
 @Component
+@Qualifier("mainDiscountPolicy")
 public class RateDiscountPolicy implements DiscountPolicy{
     private int discountPercent = 10; // 10% 할인
 
