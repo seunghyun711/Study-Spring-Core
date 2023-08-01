@@ -1,5 +1,6 @@
 package practice.core.discount;
 
+import org.springframework.stereotype.Component;
 import practice.core.member.Grade;
 import practice.core.member.Member;
 
@@ -7,6 +8,7 @@ import practice.core.member.Member;
  * <정액 할인 정책>
  * 회원등급이 VIP인 회원에 대해 1000원 할인
  */
+@Component
 public class FixDiscountPolicy implements DiscountPolicy{
     private final int discountFixAmount = 1000; // 할인 금액 : 1000원
     @Override
