@@ -18,7 +18,9 @@ public class OrderServiceImpl implements OrderService{
 
     // 추상에 의존
     private final MemberRepository memberRepository;
-    private final DiscountPolicy discountPolicy;
+    // 조회할 빈이 2개 이상인 경우 해결방법 1 -  @Autowired 필드명 매칭
+    @Autowired
+    private final DiscountPolicy rateDiscountPolicy;
 
     // 의존관계 주입 방식1 - 생성자 주입
 //    @Autowired
@@ -59,7 +61,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
         Member member = memberRepository.findById(memberId);
-        int discountPrice = discountPolicy.discount(member, itemPrice);
+        int discountPrice = rateDiscountPolicy.discount(member, itemPrice);
 
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
