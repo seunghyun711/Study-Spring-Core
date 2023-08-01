@@ -10,7 +10,6 @@ import practice.core.member.Member;
  * 회원등급이 VIP인 회원에 대해 1000원 할인
  */
 @Component
-@Qualifier("fixDiscountPolicy")
 public class FixDiscountPolicy implements DiscountPolicy{
     private final int discountFixAmount = 1000; // 할인 금액 : 1000원
     @Override
