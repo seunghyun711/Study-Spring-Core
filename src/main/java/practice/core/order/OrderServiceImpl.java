@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import practice.core.discount.DiscountPolicy;
 import practice.core.discount.FixDiscountPolicy;
+import practice.core.discount.annotation.MainDiscountPolicy;
 import practice.core.member.Member;
 import practice.core.member.MemberRepository;
 import practice.core.member.MemoryMemberRepository;
@@ -26,7 +27,8 @@ public class OrderServiceImpl implements OrderService{
     // 의존관계 주입 방식1 - 생성자 주입
     @Autowired
     // 조회할 빈이 2개 이상인 경우 해결방법 2 -  @Qualifier 사용
-    public OrderServiceImpl(MemberRepository memberRepository,@Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository,
+                            @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
