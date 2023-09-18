@@ -2,6 +2,7 @@ package practice.core.scope;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -38,18 +39,31 @@ public class SingletonWithPrototypeTest1 {
         Assertions.assertThat(prototypeBean2.getCount()).isEqualTo(1);
     }
 
-    // 싱글톤 빈이 프로토타입 빈을 사용할 때 마다 스프링 컨테이너에 요청하는 방법
+    // ObjectProvider를 사용하여 싱글톤 빈과 프로토타입 빈을 함께 사용
     static class ClientBean{
         @Autowired
-        private ApplicationContext ac;
+        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
 
         public int logic(){
-            PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
         }
     }
+
+    // 싱글톤 빈이 프로토타입 빈을 사용할 때 마다 스프링 컨테이너에 요청하는 방법
+//    static class ClientBean{
+//        @Autowired
+//        private ApplicationContext ac;
+//
+//        public int logic(){
+//            PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
+//            prototypeBean.addCount();
+//            int count = prototypeBean.getCount();
+//            return count;
+//        }
+//    }
 
 //    @Scope("singleton") // 싱글톤 빈 스코프
 //    static class ClientBean {
