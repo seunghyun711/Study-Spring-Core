@@ -3,6 +3,7 @@ package practice.core.scope;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 
@@ -12,7 +13,7 @@ import javax.annotation.PreDestroy;
 public class SingletonWithPrototypeTest1 {
 
     @Test
-    void singletonClientUsePrototype(){ // 싱그론 빈에서 프로토타입 빈 사용 테스트
+    void singletonClientUsePrototype(){ // 싱글톤 빈에서 프로토타입 빈 사용 테스트
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
 
         ClientBean clientBean1 = ac.getBean(ClientBean.class);
@@ -21,7 +22,7 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        Assertions.assertThat(count2).isEqualTo(2);
+        Assertions.assertThat(count2).isEqualTo(1);
     }
 
     @Test
@@ -37,21 +38,34 @@ public class SingletonWithPrototypeTest1 {
         Assertions.assertThat(prototypeBean2.getCount()).isEqualTo(1);
     }
 
-    @Scope("singleton") // 싱글톤 빈 스코프
-    static class ClientBean {
-        private final PrototypeBean prototypeBean;
-
+    // 싱글톤 빈이 프로토타입 빈을 사용할 때 마다 스프링 컨테이너에 요청하는 방법
+    static class ClientBean{
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {// PrototypeBean 의존관계 주입
-            this.prototypeBean = prototypeBean;
-        }
+        private ApplicationContext ac;
 
         public int logic(){
+            PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
             prototypeBean.addCount();
-            int count = prototypeBean.count;
+            int count = prototypeBean.getCount();
             return count;
         }
     }
+
+//    @Scope("singleton") // 싱글톤 빈 스코프
+//    static class ClientBean {
+//        private final PrototypeBean prototypeBean;
+//
+//        @Autowired
+//        public ClientBean(PrototypeBean prototypeBean) {// PrototypeBean 의존관계 주입
+//            this.prototypeBean = prototypeBean;
+//        }
+//
+//        public int logic(){
+//            prototypeBean.addCount();
+//            int count = prototypeBean.count;
+//            return count;
+//        }
+//    }
 
     @Scope("prototype") // 프로토타입 빈 스코프
     static class PrototypeBean{
