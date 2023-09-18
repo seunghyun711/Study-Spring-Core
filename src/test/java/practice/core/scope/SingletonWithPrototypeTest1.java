@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 public class SingletonWithPrototypeTest1 {
 
@@ -39,18 +40,31 @@ public class SingletonWithPrototypeTest1 {
         Assertions.assertThat(prototypeBean2.getCount()).isEqualTo(1);
     }
 
-    // ObjectProvider를 사용하여 싱글톤 빈과 프로토타입 빈을 함께 사용
+    // JSR-330 Provider를 사용하여 싱글톤 빈과 프로토타입 빈을 함께 사용
     static class ClientBean{
         @Autowired
-        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+        private Provider<PrototypeBean> provider;
 
         public int logic(){
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            PrototypeBean prototypeBean = provider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
         }
     }
+
+    // ObjectProvider를 사용하여 싱글톤 빈과 프로토타입 빈을 함께 사용
+//    static class ClientBean{
+//        @Autowired
+//        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+//
+//        public int logic(){
+//            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+//            prototypeBean.addCount();
+//            int count = prototypeBean.getCount();
+//            return count;
+//        }
+//    }
 
     // 싱글톤 빈이 프로토타입 빈을 사용할 때 마다 스프링 컨테이너에 요청하는 방법
 //    static class ClientBean{
