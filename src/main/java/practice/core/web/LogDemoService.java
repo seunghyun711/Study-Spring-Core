@@ -8,10 +8,9 @@ import practice.core.common.MyLogger;
 @Service
 @RequiredArgsConstructor
 public class LogDemoService { // 서비스 계층
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     public void logic(String id) {
-        MyLogger myLogger = myLoggerProvider.getObject();
         myLogger.log("service id = " + id);
     }
 }
